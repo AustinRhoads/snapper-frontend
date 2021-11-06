@@ -13,9 +13,8 @@ function Login(){
     const user = { username, password }
 
     useEffect(()=>{
-        //axios.get("http://localhost:3000/logged_in", {withCredentials: true})
-        //.then(resp => console.log(resp))
-        fetch("http://localhost:3000/logged_in", { credentials: 'include'}).then(resp => resp.json()).then(obj => console.log(obj))
+
+      
         
     })
 
