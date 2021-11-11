@@ -1,33 +1,47 @@
-import React, {useState} from 'react' 
-import { useEffect } from 'react/cjs/react.development';
+import React, {useEffect} from 'react' 
+import Auth from './authentication/auth';
 
+function Home(props){
 
-function Home(){
-
-
-    const [ user, setUser ] = useState({});
-    const [loggedIn, setLoggedIn] = useState(false)
     
 
     const logout = () => {
         fetch('http://localhost:3000/sessions/delete', {method: "DELETE", credentials: "include", headers: { 'content-type': 'application/json'}})
         .then(resp => resp.json())
-        .then(obj => console.log(obj))
+        .then(obj => {
+            Auth.setUser({user: {}, logged_in: false})
+           
+        })
+        props.logged_out()
     }
 
     useEffect(() => {
-        fetch("http://localhost:3000/logged_in", { credentials: 'include'}).then(resp => resp.json()).then(obj => {
-            setLoggedIn(currentLoggedIn => currentLoggedIn = obj.logged_in)
-            setUser(currentUser => currentUser = obj.user)
-            
-        })
-        //console.log(user, loggedIn)
+        console.log(props)
     })
+
+    const renderUser = () => {
+        if(props.logged_in){
+           return(
+               <div>
+                   <h3>Welcome {`${props.user.username}`}</h3>
+               </div>
+           )
+        } else {
+            return(
+                <div>
+                <h3>Go LogIn yo.</h3>
+            </div>
+            )
+      
+        }
+    }
+
+
 
     return(
         <div>
             HOME
-
+        {renderUser()}
         <button onClick={() => logout()}>Log Out</button>
         </div>
     )
